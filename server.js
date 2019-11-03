@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
 const MongoClient = require('mongodb').MongoClient;
+const path = require("path");
 
 // replace the uri string with your connection string.
 const uri = "mongodb+srv://stara04:tejkuru%2501@cluster0-exwb9.gcp.mongodb.net/test"
@@ -27,8 +28,10 @@ app.get('/express_backend', (req, res) => {
 });
 
 // FOR PRODUCTION
-// app.use(express.static(path.join(__dirname, "/client/build")));
-//
-// app.get("/*", (req, res) +> {
-//   res.sendFile(path.join(__dirname, "/client/build/index.html"));
-// });
+if (process.env.NODE_ENV === "production"){
+  app.use(express.static(path.join(__dirname, "/client1/build")));
+
+  app.get("/*", (req, res) => {
+    res.sendFile(path.join(__dirname, "/client1/build/index.html"));
+  });
+}

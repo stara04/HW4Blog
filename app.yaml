@@ -1,4 +1,4 @@
-runtime: node.js
+runtime: nodejs
 env: flex
 
 manual_scaling:
@@ -11,9 +11,9 @@ resources:
 
 handlers:
   - url: /
-    static_files: client/build/index.html
-    upload: client/build/index.html
+    static_files: client1/build/index.html
+    upload: client1/build/index.html
   - url: /
-    static_dir: client/build
+    static_dir: client1/build
 skip_files:
   - package-lock.json
