@@ -3,7 +3,13 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  flex-grow: 5;
+  height: 100px;
+  float: right;
+  transform: rotate(90deg);
+  padding-left: 20px;
+  display: block;
+  margin-top: 5px;
 }
 
 .App-header {
@@ -21,6 +27,22 @@
   color: #09d3ac;
 }
 
+.top-section {
+  background-color: lavender;
+  padding: 10px;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.blog-main-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.blog-main-desc {
+  float: left;
+}
 
 .blog-post {
   display: flex;
