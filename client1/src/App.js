@@ -5,6 +5,7 @@ import Posts from "./components/posts.component";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import ourPicture from './our_picture.JPG';
+import axios from 'axios';
 
 class App extends Component {
   constructor(props) {
@@ -12,16 +13,53 @@ class App extends Component {
     this.state = {
         data: null,
         signedIn: false,
-        user: ""
+        username: "",
+        email: ""
       };
       this.onSignIn = this.onSignIn.bind(this);
       this.onSignOut = this.onSignOut.bind(this);
+      this.onSubscribe = this.onSubscribe.bind(this);
+      this.onSuccessSignIn = this.onSuccessSignIn.bind(this);
+      this.handleNameChange = this.handleNameChange.bind(this);
+      this.handleEmailChange = this.handleEmailChange.bind(this);
+
   }
 
-  onSignIn(googleUser) {
+  onSubscribe(e){
+    e.preventDefault();
 
+    console.log(this.state.username);
+    console.log(this.state.email);
+    
+    const newSubscriber = {
+      username: this.state.username,
+      email: this.state.email
+    };
+
+    axios.post('/subscriber', newSubscriber)
+         .then(res => console.log(res.data));
+
+    console.log("you are subscribed!")
+  }
+
+  handleEmailChange(){
+    let email = document.getElementById("email").value;
+    console.log(email);
+    this.setState({
+      email: email
+    });
+  }
+
+  handleNameChange(){
+    let username = document.getElementById("username").value;
+    console.log(username);
+    this.setState({
+      username: username
+    });
+  }
+
+  onSuccessSignIn(googleUser){
     if (process.env.NODE_ENV === "production"){
-      console.log("oops, going to the wrong place");
       // Useful data for your client-side scripts:
       var profile = googleUser.getBasicProfile();
       console.log("ID: " + profile.getId()); // Don't send this directly to your server!
@@ -43,13 +81,21 @@ class App extends Component {
       });
       console.log("signed in!");
     }
+  }
 
+  onSignIn(){
+    this.setState({
+      signedIn: true,
+    });
   }
 
   onSignOut(){
+    document.getElementById("email").value="";
+    document.getElementById("username").value="";
     this.setState({
       signedIn: false,
-      user: ""
+      user: "",
+      email: ""
     });
   }
 
@@ -68,7 +114,7 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/" className="nav-link">Home</Link>
                 </li>
-                {this.state.signedIn == true
+                {this.state.signedIn === true
                   ? <li className="navbar-item">
                     <Link to="/create" className="nav-link">Create New Post</Link>
                   </li>
@@ -77,10 +123,15 @@ class App extends Component {
               </ul>
             </div>
           </nav>
-          {this.state.signedIn == false
-            ? <div class="g-signin2" onClick= {this.onSignIn} data-onsuccess="onSignIn" data-theme="dark"></div>
+          <input type="text" onChange={this.handleNameChange} placeholder="Enter User Name" id="username"/>
+          <input type="text" onChange={this.handleEmailChange} placeholder="Enter Email" id="email"/>
+          {this.state.signedIn === false
+            ? <button onClick={this.onSignIn}>Sign In</button>
             : <button onClick={this.onSignOut}>Sign Out</button>}
-          </div>
+          {this.state.signedIn === true
+            ? <button onClick={this.onSubscribe}>Subscribe</button>
+            : <div/>}
+        </div>
           <br/>
           <div className="top-section">
             <div className="blog-main-header">

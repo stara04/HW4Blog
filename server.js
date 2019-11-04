@@ -8,7 +8,7 @@ const MongoClient = require('mongodb').MongoClient;
 const path = require("path");
 
 const postRouter = require('./routes/PostRoutes.js');
-
+const subscriberRouter = require('./routes/SubscriberRoutes.js');
 
 // replace the uri string with your connection string.
 const uri = "mongodb+srv://stara04:tejkuru%2501@cluster0-exwb9.gcp.mongodb.net/test"
@@ -18,6 +18,7 @@ mongoose.connect(uri, {
 });
 
 app.use(postRouter);
+app.use(subscriberRouter);
 
 // MongoClient.connect(uri, function(err, client) {
 //    if(err) {
