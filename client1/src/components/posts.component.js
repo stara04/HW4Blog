@@ -2,15 +2,7 @@ import React, { Component } from 'react';
 
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
-const Post = props => (
-    <tr>
-        <td>{props.post.title}</td>
-        <td>{props.post.content}</td>
-        <td>{props.post.user}</td>
-        <td>{props.post.date}</td>
-    </tr>
-)
+import Post from './post.component'
 
 export default class Posts extends Component {
 
@@ -31,27 +23,15 @@ export default class Posts extends Component {
 
   getPosts() {
         return this.state.posts.map(function(currentPost, i){
-            return <Post post={currentPost} key={i} />;
+            return <Post post={currentPost} />;
         })
     }
 
   render() {
          return (
              <div>
-                 <h3>My Posts</h3>
-                 <table className="table table-striped" style={{ marginTop: 20 }} >
-                     <thead>
-                         <tr>
-                            <th>Title</th>
-                            <th>Content</th>
-                            <th>User</th>
-                            <th>Date</th>
-                         </tr>
-                     </thead>
-                     <tbody>
-                         { this.getPosts() }
-                     </tbody>
-                 </table>
+                 <h3>Our Posts</h3>
+                { this.getPosts() }
              </div>
          )
      }
