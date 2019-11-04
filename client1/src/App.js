@@ -28,7 +28,7 @@ class App extends Component {
   }
 
   setLight() {
-    if(this.state.mode != "light") {
+    if(this.state.mode !== "light") {
       this.setState({
         mode: "light"
       });
@@ -36,7 +36,7 @@ class App extends Component {
   }
 
   setDark() {
-    if(this.state.mode != "dark") {
+    if(this.state.mode !== "dark") {
       this.setState({
         mode: "dark"
       });

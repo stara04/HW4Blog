@@ -13,6 +13,27 @@ app.get('/posts', async (req, res) => {
   }
 });
 
+app.get('/recentPosts', async (req, res) => {
+
+  const todaysDate = new Date();
+  const todaysDateParsed = Date.parse(todaysDate);
+  const oneDayAgo = todaysDateParsed - 86400000;
+  const posts = await postModel.find({});
+  var recentPosts = [];
+  posts.map(function(currentPost, i){
+      const date = Date.parse(currentPost.date);
+      if(date > oneDayAgo) {
+          recentPosts.push(currentPost);
+      }
+  });
+
+  try {
+    res.send(recentPosts);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 app.post('/post', async (req, res) => {
   const post = new postModel(req.body);
 

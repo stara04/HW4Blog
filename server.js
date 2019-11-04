@@ -7,6 +7,20 @@ const MongoClient = require('mongodb').MongoClient;
 var cron = require('node-cron');
 const nodeMailer = require('nodemailer');
 
+
+const path = require("path");
+
+const postRouter = require('./routes/PostRoutes.js');
+
+// replace the uri string with your connection string.
+const uri = "mongodb+srv://stara04:tejkuru%2501@cluster0-exwb9.gcp.mongodb.net/test"
+
+mongoose.connect(uri, {
+  useNewUrlParser: true
+});
+
+app.use(postRouter);
+
 cron.schedule('0 17 * * *', () => {
   console.log('start email');
 
@@ -23,15 +37,15 @@ cron.schedule('0 17 * * *', () => {
   const mailOptions = {
     from: '"John Doe" <john.doe@example.com>', // sender address
     to: 'loren81@ethereal.email', // list of receivers
-    subject: 'Hello there!', // Subject line
-    text: 'A Message from Node Cron App', // plain text body
-    html: '<b>A Message from Node Cron App</b>' // html body
+    subject: 'An Update from Tara and Emily', // Subject line
+    text: 'Check out our latest posts!', // plain text body
+    html: '<b>Check out our latest posts <a href="https://ourblog-257721.appspot.com/">here!</a></b>' // html body
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
     console.log(info.messageId);
-    if (err) {
-      console.log(err);
+    if (error) {
+      console.log(error);
     }
   });
 
@@ -41,32 +55,7 @@ cron.schedule('0 17 * * *', () => {
 
 
 
-const path = require("path");
 
-const postRouter = require('./routes/PostRoutes.js');
-const subscriberRouter = require('./routes/SubscriberRoutes.js');
-
-// replace the uri string with your connection string.
-const uri = "mongodb+srv://stara04:tejkuru%2501@cluster0-exwb9.gcp.mongodb.net/test"
-
-mongoose.connect(uri, {
-  useNewUrlParser: true
-});
-
-app.use(postRouter);
-app.use(subscriberRouter);
-
-// MongoClient.connect(uri, function(err, client) {
-//    if(err) {
-//         console.log('Error occurred while connecting to MongoDB Atlas...\n',err);
-//    }
-//    else{
-//     console.log('Connected...');
-//    }
-//    const collection = client.db("test").collection("devices");
-//    // perform actions on the collection object
-//    client.close();
-// });
 
 // FOR DEVELOPMENT
 // console.log that your server is up and running
