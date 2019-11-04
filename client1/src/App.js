@@ -15,6 +15,7 @@ class App extends Component {
         user: ""
       };
       this.onSignIn = this.onSignIn.bind(this);
+      this.onSignOut = this.onSignOut.bind(this);
   }
 
   onSignIn(googleUser) {
@@ -45,24 +46,17 @@ class App extends Component {
 
   }
 
-  // componentDidMount() {
-  //     // Call our fetch function below once the component mounts
-  //   this.callBackendAPI()
-  //     .then(res => this.setState({ data: res.express }))
-  //     .catch(err => console.log(err));
-  // }
-  //   // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js
-  // callBackendAPI = async () => {
-  //   const response = await fetch('/express_backend');
-  //   const body = await response.json();
-  //
-  //   if (response.status !== 200) {
-  //     throw Error(body.message)
-  //   }
-  //   return body;
-  // };
+  onSignOut(){
+    this.setState({
+      signedIn: false,
+      user: ""
+    });
+  }
 
   render() {
+
+    const blogDescription = "Hi there! We are Emily and Tara. We are seniors in EE461L this semester. We have been working on projects together since Freshman Year! We hope you enjoy our blog. Feel free to contribute (once you sign in) :)";
+
     return (
       <Router>
         <div className="container">
@@ -74,25 +68,30 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/" className="nav-link">Home</Link>
                 </li>
-                <li className="navbar-item">
-                  <Link to="/create" className="nav-link">Create New Post</Link>
-                </li>
+                {this.state.signedIn == true
+                  ? <li className="navbar-item">
+                    <Link to="/create" className="nav-link">Create New Post</Link>
+                  </li>
+                  : <div/>
+                }
               </ul>
             </div>
           </nav>
-          <div class="g-signin2" onClick= {this.onSignIn} data-onsuccess="onSignIn" data-theme="dark"></div>
+          {this.state.signedIn == false
+            ? <div class="g-signin2" onClick= {this.onSignIn} data-onsuccess="onSignIn" data-theme="dark"></div>
+            : <button onClick={this.onSignOut}>Sign Out</button>}
           </div>
           <br/>
           <div className="top-section">
             <div className="blog-main-header">
               <h1>Welcome to Our Blog</h1>
-              <div className="blog-main-desc">Hi there! We are Emily and Tara. We are seniors in EE461L this semester. We have been working on projects together since Freshman Year! We hope you enjoy our blog. Feel free to contribute (once you sign in) :)
+              <div className="blog-main-desc">{blogDescription}
               </div>
-              </div>
+            </div>
            <img src={ourPicture} className="App-logo" alt="logo" />
           </div>
           <Route path="/" exact component={Posts} />
-          <Route path="/create" component={CreatePost} />
+          <Route path="/create" render={(props) => <CreatePost {...props} user={this.state.user}/>} />
         </div>
       </Router>
     );

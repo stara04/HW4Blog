@@ -39,7 +39,7 @@ onChangeTitle(e) {
         const newPost = {
             title: this.state.title,
             content: this.state.content,
-            user: "Emily Ginsburg",
+            user: this.props.user,
             date: Date()
         };
 
