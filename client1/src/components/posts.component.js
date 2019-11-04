@@ -30,6 +30,7 @@ export default class Posts extends Component {
   render() {
          return (
              <div>
+                 <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
                  <h3>Our Posts</h3>
                 { this.getPosts() }
              </div>
