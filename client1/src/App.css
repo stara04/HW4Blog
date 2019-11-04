@@ -27,6 +27,12 @@
   color: #09d3ac;
 }
 
+.navBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .top-section {
   background-color: lavender;
   padding: 10px;
