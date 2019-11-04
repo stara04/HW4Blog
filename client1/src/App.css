@@ -1,3 +1,18 @@
+.main-light, .main-dark {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.main-light {
+  background-color: white;
+}
+
+.main-dark {
+  background-color: black;
+}
+
 .App {
   text-align: center;
 }
@@ -50,29 +65,56 @@
   float: left;
 }
 
-.blog-post {
+.blog-post-light, .blog-post-dark {
   display: flex;
   flex-direction: column;
-  background-color: white;
-  border-color: black;
   border-width: 2px;
   border-style: dashed;
   margin-bottom: 15px;
+  padding-left: 10px;
+  padding-bottom: 10px;
   /* height: 100px;
   width: 100%; */
 }
 
-.blog-title {
-  font-size: 40px;
+.blog-post-light {
+  background-color: white;
+  border-color: black;
+}
+
+.blog-post-dark {
+  background-color: black;
+  border-color: white;
+}
+
+.blog-title-light, .blog-title-dark {
+  font-size: 30px;
   color: black;
 }
+
+.blog-title-light {
+  color: black;
+}
+
+.blog-title-dark {
+  color: white;
+}
+
 
 .blog-desc {
-  font-size: 24px;
+  font-size: 14px;
   color: grey;
+  font-style: italic;
 }
 
-.blog-content {
+.blog-content-light, .blog-content-dark {
   font-size: 14px;
+}
+
+.blog-content-light {
   color: black;
+}
+
+.blog-content-dark {
+  color: white;
 }

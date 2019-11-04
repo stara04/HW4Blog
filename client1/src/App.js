@@ -5,6 +5,7 @@ import Posts from "./components/posts.component";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import ourPicture from './our_picture.JPG';
+import Button from 'react-bootstrap/Button';
 
 class App extends Component {
   constructor(props) {
@@ -12,10 +13,29 @@ class App extends Component {
     this.state = {
         data: null,
         signedIn: false,
-        user: ""
+        user: "",
+        mode: "light"
       };
       this.onSignIn = this.onSignIn.bind(this);
       this.onSignOut = this.onSignOut.bind(this);
+      this.setLight = this.setLight.bind(this);
+      this.setDark = this.setDark.bind(this);
+  }
+
+  setLight() {
+    if(this.state.mode != "light") {
+      this.setState({
+        mode: "light"
+      });
+    }
+  }
+
+  setDark() {
+    if(this.state.mode != "dark") {
+      this.setState({
+        mode: "dark"
+      });
+    }
   }
 
   onSignIn(googleUser) {
@@ -59,7 +79,10 @@ class App extends Component {
 
     return (
       <Router>
-        <div className="container">
+      <div className={
+        this.state.mode === "light"
+        ? "main-light"
+        : "main-dark"}>
         <br/>
         <div className="navBar">
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -68,7 +91,7 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/" className="nav-link">Home</Link>
                 </li>
-                {this.state.signedIn == true
+                {this.state.signedIn === true
                   ? <li className="navbar-item">
                     <Link to="/create" className="nav-link">Create New Post</Link>
                   </li>
@@ -77,7 +100,7 @@ class App extends Component {
               </ul>
             </div>
           </nav>
-          {this.state.signedIn == false
+          {this.state.signedIn === false
             ? <div class="g-signin2" onClick= {this.onSignIn} data-onsuccess="onSignIn" data-theme="dark"></div>
             : <button onClick={this.onSignOut}>Sign Out</button>}
           </div>
@@ -89,8 +112,10 @@ class App extends Component {
               </div>
             </div>
            <img src={ourPicture} className="App-logo" alt="logo" />
+           <Button variant="outline-dark" onClick={this.setLight}>Light Mode</Button>
+           <Button variant="outline-dark" onClick={this.setDark}>Dark Mode</Button>
           </div>
-          <Route path="/" exact component={Posts} />
+          <Route path="/" exact render={(props) => <Posts {...props} mode={this.state.mode}/>}  />
           <Route path="/create" render={(props) => <CreatePost {...props} user={this.state.user}/>} />
         </div>
       </Router>

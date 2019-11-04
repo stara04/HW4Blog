@@ -4,6 +4,42 @@ const app = express();
 app.use(express.json());
 const port = process.env.PORT || 5000;
 const MongoClient = require('mongodb').MongoClient;
+var cron = require('node-cron');
+const nodeMailer = require('nodemailer');
+
+cron.schedule('0 17 * * *', () => {
+  console.log('start email');
+
+  let transporter = nodeMailer.createTransport({
+    host: 'smtp.ethereal.email',
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+        user: 'loren81@ethereal.email', // generated ethereal user
+        pass: 'DM49BKpkVukYA3y46m' // generated ethereal password
+      }
+  });
+
+  const mailOptions = {
+    from: '"John Doe" <john.doe@example.com>', // sender address
+    to: 'loren81@ethereal.email', // list of receivers
+    subject: 'Hello there!', // Subject line
+    text: 'A Message from Node Cron App', // plain text body
+    html: '<b>A Message from Node Cron App</b>' // html body
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    console.log(info.messageId);
+    if (err) {
+      console.log(err);
+    }
+  });
+
+  console.log('end email');
+
+});
+
+
 
 const path = require("path");
 
@@ -35,10 +71,6 @@ app.use(postRouter);
 // console.log that your server is up and running
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
-// create a GET route
-app.get('/express_backend', (req, res) => {
-  res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' });
-});
 
 // FOR PRODUCTION
 if (process.env.NODE_ENV === "production"){

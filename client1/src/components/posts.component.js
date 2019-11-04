@@ -10,30 +10,31 @@ export default class Posts extends Component {
     super(props);
     this.state = {
       posts: [],
+      mode: this.props.mode,
     };
   }
 
   componentDidMount() {
       axios.get('/posts/')
           .then(response => {
-              this.setState({ posts: response.data });
+              this.setState({ posts: response.data.reverse() });
           })
           .catch(function (error){
               console.log(error);
           })
   }
 
-  getPosts() {
+  getPosts(mode) {
         return this.state.posts.map(function(currentPost, i){
-            return <Post post={currentPost} />;
+            return <Post post={currentPost} key={i} mode={mode}/>;
         })
     }
 
   render() {
          return (
              <div>
-                 <h3>Our Posts</h3>
-                { this.getPosts() }
+             <br/>
+                { this.getPosts(this.props.mode) }
              </div>
          )
      }

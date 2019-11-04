@@ -10,14 +10,23 @@ export default class Post extends Component {
     const dateString = new Date(date).toLocaleString();
 
          return (
-            <div className="blog-post">
-              <div className="blog-title">
+           <div className={
+             this.props.mode === "light"
+             ? "blog-post-light"
+             : "blog-post-dark"}>
+             <div className={
+               this.props.mode === "light"
+               ? "blog-title-light"
+               : "blog-title-dark"}>
                 {this.props.post.title}
               </div>
                 <div className="blog-desc">
                   by:  {this.props.post.user} on  {dateString}
                 </div>
-                <div className="blog-content">
+                <div className={
+                  this.props.mode === "light"
+                  ? "blog-content-light"
+                  : "blog-content-dark"}>
                   {this.props.post.content}
                 </div>
             </div>
